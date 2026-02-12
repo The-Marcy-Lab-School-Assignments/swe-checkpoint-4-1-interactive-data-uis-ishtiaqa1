@@ -1,7 +1,8 @@
-import { getProducts } from "./fetch-helpers";
-import { renderProducts } from "./dom-helpers";
+import { getProductById, getProducts } from "./fetch-helpers";
+import { renderProducts, renderProductDetails } from "./dom-helpers";
 
-const error = document.getElementById('error-message');
+const error = document.querySelector('#error-message');
+const pList = document.querySelector('#products-list');
 
 getProducts()
 .then((products)=>{
@@ -10,6 +11,21 @@ getProducts()
     }
     return renderProducts(products.data);
 })
-.catch((error) => {
-    error.textContent = error;
+.catch((err) => {
+    error.textContent = err;
+})
+
+pList.addEventListener('click', (event) => {
+    const closest = event.target.closest('li');
+    const id = closest.getAttribute('data-product-id');
+    getProductById(id).then((product) => {
+       if (product.data === null) {
+        throw Error(product.error)
+        }
+        return renderProductDetails(product.data);
+    })
+    .catch((err) => {
+        error.textContent = err;
+    })
+
 })

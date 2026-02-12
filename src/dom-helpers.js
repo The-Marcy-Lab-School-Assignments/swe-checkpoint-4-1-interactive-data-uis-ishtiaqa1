@@ -22,7 +22,22 @@ export const renderProducts = (products) => {
     });
 };
 
+const pDetails = document.querySelector('#product-details');
 
 export const renderProductDetails = (product) => {
-
+    pDetails.classList.remove('hidden');
+    pDetails.innerHTML = '';
+    const title = document.createElement('h3');
+    const thumbnail = document.createElement('img');
+    const price = document.createElement('p');
+    const description = document.createElement('p');
+    title.textContent = product.title;
+    thumbnail.src = product.thumbnail;
+    thumbnail.alt = product.title;
+    price.textContent = product.price;
+    description.textContent = product.description;
+    pDetails.appendChild(title);
+    pDetails.appendChild(thumbnail);
+    pDetails.appendChild(price);
+    pDetails.appendChild(description);
 };
