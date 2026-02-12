@@ -1,4 +1,4 @@
-import { getProductById, getProducts } from "./fetch-helpers";
+import { getProductById, getProducts, searchProducts } from "./fetch-helpers";
 import { renderProducts, renderProductDetails } from "./dom-helpers";
 
 const error = document.querySelector('#error-message');
@@ -28,4 +28,17 @@ pList.addEventListener('click', (event) => {
         error.textContent = err;
     })
 
+})
+
+const form = document.querySelector('#search-form');
+const search = document.querySelector('#query')
+
+form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const data = await searchProducts(search.value);
+    if (data.error != null) {
+        error.textContent = data.error;
+    } else {
+        renderProducts(data.data);
+    }
 })
